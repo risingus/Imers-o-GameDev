@@ -44,8 +44,7 @@ class Jogo {
             52,
             104,
             95,
-            10,
-            100
+            10
         );
         const inimigoGrande = new Inimigo(
             matrizInimigoGrande,
@@ -56,8 +55,7 @@ class Jogo {
             200,
             400,
             400,
-            15,
-            100
+            15
         );
         const inimigoVoador = new Inimigo(
             matrizInimigoVoador,
@@ -68,8 +66,7 @@ class Jogo {
             75,
             200,
             150,
-            10,
-            100
+            10
         );
 
         inimigos.push(inimigo);
@@ -106,6 +103,7 @@ class Jogo {
 
         if (inimigoVisivel) {
             this.indice++;
+            inimigo.aparece();
             if (this.indice > this.mapa.length - 1) {
                 this.indice = 0;
             }
