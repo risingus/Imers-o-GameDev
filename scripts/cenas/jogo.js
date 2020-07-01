@@ -1,11 +1,30 @@
 class Jogo {
     constructor() {
-        this.inimigoAtual = 0;
+        this.indice = 0;
+        this.mapa = [
+            {
+                inimigo: 0,
+                velocidade: 10
+            },
+            {
+                inimigo: 1,
+                velocidade: 30
+            },
+            {
+                inimigo: 1,
+                velocidade: 15
+            },
+            {
+                inimigo: 2,
+                velocidade: 40
+            },
+        ]
     }
 
     setup() {
         cenario = new Cenario(imagemCenario, 3);
         pontuacao = new Pontuacao();
+        vida = new Vida(3, 3);
         personagem = new Personagem(
             matrizPersonagem,
             imagemPersonagem,
@@ -72,27 +91,35 @@ class Jogo {
         cenario.move();
         pontuacao.exibe();
         pontuacao.adicionarPonto();
+        vida.draw();
         personagem.exibe();
         personagem.aplicaGravidade()
 
-        const inimigo = inimigos[this.inimigoAtual];
+        const linhaAtual = this.mapa[this.indice];
+        const inimigo = inimigos[linhaAtual.inimigo];
         const inimigoVisivel = inimigo.x < -inimigo.largura;
 
+        inimigo.velocidade = linhaAtual.velocidade;
 
         inimigo.exibe();
         inimigo.move();
 
         if (inimigoVisivel) {
-            this.inimigoAtual++;
-            if (this.inimigoAtual > 2) {
-                this.inimigoAtual = 0;
+            this.indice++;
+            if (this.indice > this.mapa.length - 1) {
+                this.indice = 0;
             }
-            inimigo.velocidade = parseInt(random(5, 30));
         }
 
         if (personagem.estaColidindo(inimigo)) {
-            image(imagemGameOver, width / 2 - 200, height / 3)
-            noLoop()
+            
+            vida.perdeVida();
+            personagem.tornarInvencivel();
+            if(vida.vidas < 0) {
+                image(imagemGameOver, width / 2 - 200, height / 3)
+                noLoop();
+            }
+            
         }
     }
 }
