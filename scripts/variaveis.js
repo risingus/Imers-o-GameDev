@@ -13,6 +13,7 @@ let cenas;
 let telaInicial;
 let botaoGerenciador;
 let imagemVida;
+let fita;
 
 let cenario;
 let somDoJogo;
